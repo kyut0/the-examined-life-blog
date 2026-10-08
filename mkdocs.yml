@@ -1,0 +1,71 @@
+site_name: The Examined Life
+site_url: https://blog.the-examined-life.com
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  favicon: assets/philospher.png # Directs browser windows to find your custom tab logo
+  icon:
+    logo: material/book-open-page-variant # Adds an open book logo in the top bar
+  features:
+    - navigation.top            # Adds a smooth "Back to top" button
+    - navigation.tracking       # Highlights the active sidebar link as you scroll
+    - content.code.copy         # Adds a one-click copy button to code blocks
+    - blog.archive              # Groups older posts by year automatically
+    - blog.categories           # Adds a category filter sidebar for readers
+  palette:
+    # Upgraded Light Mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal            # Warm, scholarly editorial header color
+      accent: deep orange       # High-contrast color for links and buttons
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal            # Keeps branding consistent in dark mode
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  # Typography: Clean, high-legibility fonts perfect for reading essays
+  font:
+    text: Merriweather          # Beautiful serif font for long-form reading
+    code: Fira Code             # Modern, clean font for code fragments
+
+# Builds the `recent_posts` template global used by the home page list.
+# Lives outside docs/ so it is never copied into the built site.
+hooks:
+  - hooks/recent_posts.py
+
+plugins:
+  - blog:
+      blog_dir: blog # Keeps posts organized inside docs/blog/
+      post_url_format: "{date}/{slug}" # Beautiful chronological URLs
+      # Every post must contain a `<!-- more -->` separator. Text above it is the
+      # timeline excerpt; Material appends a "Continue reading" link. Without
+      # this set to `required`, a post missing the separator silently renders in
+      # FULL on /blog/ -- which hides the fact that comments and the newsletter
+      # signup only exist on the post page itself.
+      post_excerpt: required
+
+nav:
+  - Home: index.md
+  - Blog: blog/index.md
+  - About: about.md
+
+# Custom attribution shown in the footer bar (must be top-level, not under `extra`)
+# Says both halves on purpose: the site's code is MIT (see LICENSE, and the
+# public mirror at github.com/kyut0/the-examined-life-blog), the writing is not.
+# A bare "All Rights Reserved" here contradicted the repo's license file.
+copyright: "© 2026 Katy Yut. Writing all rights reserved; site code MIT-licensed."
+
+extra:
+  # This strips out the "Made with Material for MkDocs" line completely
+  generator: false
+
+extra_css:
+  - assets/custom.css
+

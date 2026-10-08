@@ -1,0 +1,347 @@
+/* Footer, light mode only: light ivory bar with charcoal text.
+   Material colors footer text via these variables (default: white at various
+   opacities), so overriding the variables recolors the copyright line, the
+   prev/next hints, and the links together. Setting `color` on the containers
+   alone does NOT work -- `.md-copyright` and `.md-copyright__highlight` carry
+   their own explicit color rules that beat inherited values.
+
+   Dark mode is deliberately left alone: Material's stock footer is already
+   near-black with white text, which is what we want against the slate scheme. */
+[data-md-color-scheme="default"] .md-footer,
+[data-md-color-scheme="default"] .md-footer-meta {
+    background-color: #fcfbfa;
+
+    --md-footer-bg-color: #fcfbfa;
+    --md-footer-bg-color--dark: #fcfbfa;
+    --md-footer-fg-color: #3d4142;
+    --md-footer-fg-color--light: #3d4142;
+    --md-footer-fg-color--lighter: #5c6163;
+}
+
+/* Links and icons in the light footer take the theme's primary tint.
+   Dark mode keeps Material's white-on-black footer links. */
+[data-md-color-scheme="default"] .md-footer a,
+[data-md-color-scheme="default"] .md-footer svg {
+    color: var(--md-primary-fg-color);
+    fill: var(--md-primary-fg-color);
+}
+
+
+/* ---------------------------------------------------------------------------
+   Site banner (docs/overrides/partials/header.html)
+
+   The banner image is 3.55:1, so its rendered height tracks viewport width:
+   ~1100px wide -> ~310px tall (plenty of room to overlay text)
+   ~375px wide  -> ~105px tall (less than the text needs)
+
+   So there are two layouts. Wide: text overlaid on the image, white with a
+   shadow for legibility. Narrow: text stacked BELOW the image in a solid bar.
+   Overlaying at phone width is what was clipping the title and the nav links.
+
+   Mobile matters more than usual here: this partial replaces Material's own
+   header, which is where the hamburger drawer toggle lives -- so this nav is
+   the only way to reach the Blog page on a phone.
+   --------------------------------------------------------------------------- */
+.site-banner {
+    position: relative;
+    background-color: var(--md-default-bg-color);
+    border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.site-banner__imglink {
+    display: block;
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+
+.site-banner__img {
+    display: block;
+    width: 100%;
+    max-height: 400px;
+    min-height: 5rem;
+    object-fit: cover;
+    margin: 0;
+}
+
+.site-banner__bar {
+    display: flex;
+    gap: 0.75rem 1.5rem;
+    box-sizing: border-box;
+}
+
+.site-banner__title {
+    font-family: Merriweather, Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    text-decoration: none;
+    /* Fluid so it never outgrows the space it has to fit in */
+    font-size: clamp(1.4rem, 5.5vw, 2.2rem);
+}
+
+.site-banner__navlist {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.site-banner__navlink {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-family: var(--md-text-font, inherit);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+}
+
+/* --- Wide: overlay the text on the image ------------------------------- */
+@media screen and (min-width: 45em) {
+    .site-banner__bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 2.5rem 4rem;
+    }
+
+    .site-banner__title,
+    .site-banner__navlink {
+        color: #ffffff;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .site-banner__navlink--active {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .site-banner__navlink:hover {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* --- Narrow: stack the text below the image ---------------------------- */
+@media screen and (max-width: 44.9375em) {
+    .site-banner__bar {
+        /* Column so a long title and the nav can never compete for width */
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.9rem 1rem 1rem 1rem;
+    }
+
+    .site-banner__title {
+        color: var(--md-default-fg-color);
+    }
+
+    .site-banner__navlink {
+        color: var(--md-default-fg-color--light);
+        border-color: var(--md-default-fg-color--lightest);
+        padding: 0.35rem 0.7rem;
+    }
+
+    .site-banner__navlink--active {
+        color: var(--md-primary-fg-color);
+        border-color: var(--md-primary-fg-color);
+    }
+}
+
+
+/* ---------------------------------------------------------------------------
+   Recent-posts list on the home page
+   (docs/overrides/partials/recent-posts.html)
+   --------------------------------------------------------------------------- */
+.recent-posts {
+    list-style: none;
+    margin: 1rem 0 0 0;
+    padding: 0;
+}
+
+.recent-posts__item {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.recent-posts__item:first-child {
+    border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.recent-posts__link {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--md-default-fg-color);
+}
+
+.recent-posts__title {
+    font-family: Merriweather, Georgia, serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.3;
+}
+
+.recent-posts__link:hover .recent-posts__title {
+    color: var(--md-accent-fg-color);
+}
+
+/* Nudge the arrow on hover -- a cheap affordance that this is a link through
+   to the full article, which is the whole point of this list. */
+.recent-posts__arrow {
+    flex: 0 0 auto;
+    color: var(--md-primary-fg-color);
+    transition: transform 0.15s ease;
+}
+
+.recent-posts__link:hover .recent-posts__arrow {
+    transform: translateX(3px);
+}
+
+.recent-posts__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--md-default-fg-color--light);
+}
+
+.recent-posts__cat {
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 999px;
+}
+
+.recent-posts__all {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+}
+
+
+/* ---------------------------------------------------------------------------
+   Kit newsletter signup (docs/overrides/partials/newsletters.html)
+
+   Replaces the ~590 lines of inline CSS from Kit's HTML embed. Uses Material's
+   real theme variables so it tracks the palette in both schemes:
+     --md-default-bg-color / --md-default-fg-color  page surface + text
+     --md-accent-fg-color                           the "deep orange" accent
+     --md-primary-fg-color                          the "teal" primary
+   (Note: --md-card-background-color, --md-text-color and --md-accent-color are
+   NOT Material variables -- an invalid var() makes the browser drop the whole
+   declaration, so those silently do nothing.)
+   --------------------------------------------------------------------------- */
+.newsletter-cta {
+    max-width: 700px;
+    margin: 3rem auto 0 auto;
+    padding: 1.5rem;
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 8px;
+    background-color: var(--md-default-bg-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.newsletter-cta__title {
+    margin: 0 0 0.5rem 0;
+    font-family: Merriweather, Georgia, serif;
+    font-size: 1.1rem;
+    color: var(--md-default-fg-color);
+}
+
+.newsletter-cta__blurb {
+    margin: 0 0 1rem 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--md-default-fg-color--light);
+}
+
+/* Kit's own wrapper elements */
+.newsletter-cta .formkit-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.newsletter-cta .formkit-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+    font-family: inherit;
+    color: var(--md-default-fg-color);
+    background-color: var(--md-default-bg-color);
+    border: 1px solid var(--md-default-fg-color--lighter);
+    border-radius: 4px;
+}
+
+.newsletter-cta .formkit-input:focus {
+    outline: none;
+    border-color: var(--md-accent-fg-color);
+}
+
+.newsletter-cta .formkit-submit {
+    width: 100%;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--md-accent-fg-color);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.newsletter-cta .formkit-submit:hover {
+    opacity: 0.9;
+}
+
+/* Validation / success messages injected by ck.5.js */
+.newsletter-cta .formkit-alert {
+    margin: 0 0 0.75rem 0;
+    padding: 0.5rem 0.7rem;
+    list-style: none;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    background-color: var(--md-default-fg-color--lightest);
+    color: var(--md-default-fg-color);
+}
+
+/* Kit renders an empty <ul> until there's something to say -- keep it collapsed
+   so it doesn't leave a gap above the input. */
+.newsletter-cta .formkit-alert:empty {
+    display: none;
+}
+
+/* Submit spinner: hidden until ck.5.js marks the button active */
+.newsletter-cta .formkit-spinner {
+    display: none;
+}
+
+.newsletter-cta .formkit-submit[data-active] .formkit-spinner {
+    display: inline-block;
+}
+
+/* The "Built with Kit" badge markup is removed from newsletters.html. This rule
+   is the safety net in case a future re-paste of Kit's embed brings it back. */
+.newsletter-cta .formkit-powered-by-convertkit-container,
+.newsletter-cta .formkit-powered-by-convertkit {
+    display: none;
+}
+

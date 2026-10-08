@@ -1,0 +1,52 @@
+<!-- Kit (ConvertKit) newsletter signup.
+
+     Included by partials/comments.html, which owns the blog-posts-only guard.
+     Not a Material partial hook -- the theme will never pick this file up by
+     name, so it renders only via that include.
+
+     Wiring notes:
+       - `action`, `data-sv-form`, `data-uid` and `data-options` come straight
+         from the Kit dashboard embed. Do not hand-edit them.
+       - ck.5.js progressively enhances this into an inline AJAX form. Without
+         JS it still works as a plain POST; Kit renders its own confirmation.
+       - The data-element="errors|fields|submit" hooks are what ck.5.js binds
+         to, so keep them even though our styling lives in custom.css. -->
+<div class="newsletter-cta">
+  <h3 class="newsletter-cta__title">Join the Newsletter</h3>
+  <p class="newsletter-cta__blurb">
+    Get my latest deep-dives on living the examined life sent straight to your inbox.
+  </p>
+
+  <script async src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+  <form action="https://app.kit.com/forms/9836319/subscriptions"
+        class="seva-form formkit-form"
+        method="post"
+        data-sv-form="9836319"
+        data-uid="255c8eb886"
+        data-format="inline"
+        data-version="5"
+        data-options="{&quot;settings&quot;:{&quot;after_subscribe&quot;:{&quot;action&quot;:&quot;message&quot;,&quot;success_message&quot;:&quot;Success! Now check your email to confirm your subscription.&quot;,&quot;redirect_url&quot;:&quot;&quot;},&quot;analytics&quot;:{&quot;google&quot;:null,&quot;fathom&quot;:null,&quot;facebook&quot;:null,&quot;segment&quot;:null,&quot;pinterest&quot;:null,&quot;sparkloop&quot;:null,&quot;googletagmanager&quot;:null},&quot;modal&quot;:{&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15},&quot;powered_by&quot;:{&quot;show&quot;:true,&quot;url&quot;:&quot;https://kit.com/features/forms?utm_campaign=poweredby&amp;utm_content=form&amp;utm_medium=referral&amp;utm_source=dynamic&quot;},&quot;recaptcha&quot;:{&quot;enabled&quot;:false},&quot;return_visitor&quot;:{&quot;action&quot;:&quot;show&quot;,&quot;custom_content&quot;:&quot;&quot;},&quot;slide_in&quot;:{&quot;display_in&quot;:&quot;bottom_right&quot;,&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15},&quot;sticky_bar&quot;:{&quot;display_in&quot;:&quot;top&quot;,&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15}},&quot;version&quot;:&quot;5&quot;}">
+    <div data-style="clean">
+      <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+      <div data-element="fields" data-stacked="true" class="seva-fields formkit-fields">
+        <div class="formkit-field">
+          <input class="formkit-input"
+                 name="email_address"
+                 aria-label="Email address"
+                 placeholder="your@email.com"
+                 required
+                 type="email">
+        </div>
+        <button data-element="submit" class="formkit-submit">
+          <div class="formkit-spinner"><div></div><div></div><div></div></div>
+          <span>Subscribe</span>
+        </button>
+      </div>
+      {{- '' }}{#- The "Built with Kit" badge normally sits here. Removed: ck.5.js
+          never references it (zero "powered" matches in the bundle), so it is
+          inert markup and dropping it cannot affect form submission. Whether you
+          are allowed to drop it is a Kit plan question, not a technical one --
+          see data-options powered_by.show above. -#}
+    </div>
+  </form>
+</div>

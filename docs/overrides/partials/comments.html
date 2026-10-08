@@ -1,0 +1,54 @@
+{#-
+  End-of-content hook, dispatching by page type:
+    blog post -> newsletter signup, then the Cusdis discussion thread
+    home page -> the recent-posts list
+
+  Material ships partials/comments.html as an empty stub and includes it last in
+  partials/content.html, which makes it the one place to hang anything that
+  belongs after a page's body -- comments or not.
+
+  Material ships partials/comments.html as an empty stub (just a header comment)
+  and includes it last in partials/content.html. That makes it the theme's
+  designated "end of the page content" hook -- so overriding it costs nothing on
+  a theme upgrade, and everything that belongs after a post goes here rather
+  than in a copied-out content.html.
+
+  This single guard covers both blocks, so blog-posts-only lives in one place.
+-#}
+{% if page.file.src_path.startswith("blog/posts/") %}
+
+  {% include "partials/newsletters.html" %}
+
+  <div style="max-width: 700px; margin: 4rem auto 0 auto; padding: 0 1rem;">
+    <h2
+      style="font-family: Merriweather, Georgia, serif; font-size: 1.5rem; margin-bottom: 1.5rem; border-top: 1px solid #eaeaea; padding-top: 2rem;">
+      Discussion</h2>
+
+    {#- data-page-id is the stable thread key, so it must NOT contain the domain:
+        a site_url change would re-key every thread and orphan its comments.
+        page.url is relative (blog/2026/08/23/hello-world/) and survives that.
+        data-page-url is only the link Cusdis puts in notification emails, so
+        it does want the absolute canonical URL. -#}
+    <div id="cusdis_thread" data-host="https://cusdis.com" data-app-id="3dd76b66-b9cb-4232-9160-670df9f94a36"
+      data-page-id="{{ page.url }}" data-page-url="{{ page.canonical_url }}"
+      data-page-title="{{ page.title }}">
+    </div>
+
+    {#- The widget renders inside a srcdoc iframe, so our stylesheet cannot reach
+        its "Comments powered by Cusdis" line. The only supported lever is the
+        locale table, which cusdis.es.js copies into the iframe. Note the lookup
+        is `locale[key] || default[key]`, so an empty string falls back to the
+        default -- the blanking value has to be non-empty. U+2009 (thin space)
+        renders as whitespace while staying truthy.
+        Must be set BEFORE the widget script runs, hence no async/defer here. -#}
+    <script>
+      window.CUSDIS_LOCALE = { powered_by: " " };
+    </script>
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+  </div>
+
+{% elif page.is_homepage %}
+
+  {% include "partials/recent-posts.html" %}
+
+{% endif %}

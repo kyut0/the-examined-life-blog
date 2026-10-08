@@ -1,0 +1,28 @@
+# --- Python & Poetry Environment Caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+ENV/
+
+# --- MkDocs Local Build Outputs ---
+# This stops your local test builds from messing with Vercel's remote cloud builds
+site/
+output/
+
+# --- Vercel Cache Logging ---
+# Suppresses local Vercel CLI debug folders
+.vercel/
+
+# --- Operating System Garbage ---
+# Windows thumbnail database files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS folder display properties configuration files
+.DS_Store
+.AppleDouble
+.LSOverride

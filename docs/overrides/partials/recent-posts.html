@@ -1,0 +1,41 @@
+{#-
+  Recent-posts list for the home page.
+
+  Included by partials/comments.html (the theme's end-of-content hook), because
+  index.md is Markdown and cannot run Jinja itself.
+
+  `recent_posts` is built by hooks/recent_posts.py, NOT by the blog plugin --
+  the plugin only exposes its `posts` variable on its own views, and reaching
+  into the plugin instance from a template means depending on a semi-private
+  attribute chain. The hook reads post sources and File URLs instead, both
+  public surfaces. See that file for the full rationale.
+
+  Each entry: { title, url, date, categories }.
+  No <h?> heading here on purpose -- index.md supplies its own lead-in line.
+-#}
+{% set posts = recent_posts | default([], true) %}
+
+{% if posts %}
+  <ul class="recent-posts">
+    {% for post in posts[:5] %}
+      <li class="recent-posts__item">
+        <a class="recent-posts__link" href="{{ post.url | url }}">
+          <span class="recent-posts__title">{{ post.title }}</span>
+          <span class="recent-posts__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <div class="recent-posts__meta">
+          <time datetime="{{ post.date }}">{{ post.date.strftime("%B %-d, %Y") }}</time>
+          {% for category in post.categories %}
+            <span class="recent-posts__cat">{{ category }}</span>
+          {% endfor %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if posts | length > 5 %}
+    <p class="recent-posts__all">
+      <a href="{{ 'blog/' | url }}">Browse all posts &rarr;</a>
+    </p>
+  {% endif %}
+{% endif %}

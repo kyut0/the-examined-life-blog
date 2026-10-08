@@ -1,0 +1,37 @@
+{#-
+  Site banner, replacing Material's own header partial.
+
+  Styling lives in docs/assets/custom.css, NOT in inline style attributes: the
+  layout has to change at a breakpoint, and an inline style cannot hold a media
+  query. That is what made this unfixable on mobile.
+
+  The banner image is 3892x1097 (3.55:1), so at phone width it is only ~105px
+  tall -- shorter than the overlay text needs. Above the breakpoint the text is
+  overlaid on the image; below it, the text stacks underneath. See custom.css.
+-#}
+<header class="site-banner">
+
+  <a class="site-banner__imglink" href="{{ '' | url }}" aria-label="{{ config.site_name }} — home">
+    <img class="site-banner__img" src="{{ 'assets/The_Death_of_Socrates.jpg' | url }}"
+      alt="{{ config.site_name }} banner">
+  </a>
+
+  <div class="site-banner__bar">
+    <a class="site-banner__title" href="{{ '' | url }}">{{ config.site_name }}</a>
+
+    <nav class="site-banner__nav" aria-label="Main navigation">
+      <ul class="site-banner__navlist">
+        {% for nav_item in nav %}
+        <li>
+          <a href="{{ nav_item.url | url }}"
+            class="site-banner__navlink{% if nav_item.active %} site-banner__navlink--active{% endif %}"
+            {% if nav_item.active %}aria-current="page"{% endif %}>
+            {{ nav_item.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+
+</header>

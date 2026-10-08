@@ -1,0 +1,4 @@
+{
+    "buildCommand": "pip install poetry --break-system-packages && python -m poetry install --no-root && python -m poetry run mkdocs build",
+    "outputDirectory": "site"
+}
