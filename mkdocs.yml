@@ -60,7 +60,14 @@ nav:
 # Says both halves on purpose: the site's code is MIT (see LICENSE, and the
 # public mirror at github.com/kyut0/the-examined-life-blog), the writing is not.
 # A bare "All Rights Reserved" here contradicted the repo's license file.
-copyright: "© 2026 Katy Yut. Writing all rights reserved; site code MIT-licensed."
+#
+# The second line is a breadcrumb in the easter-egg hunt on kyut0.github.io (the trail
+# runs: devtools console -> /type -> this blog -> the GitHub profile README). Material
+# renders the copyright as HTML, so the link works.
+copyright: >-
+  © 2026 Katy Yut. Writing all rights reserved; site code MIT-licensed.<br>
+  <span class="breadcrumb"> ✨ Breadcrumb #3: the map continues where the code is kept →
+  <a href="https://github.com/kyut0">github.com/kyut0</a></span>
 
 extra:
   # This strips out the "Made with Material for MkDocs" line completely

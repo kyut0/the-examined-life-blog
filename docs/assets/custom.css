@@ -26,6 +26,13 @@
     fill: var(--md-primary-fg-color);
 }
 
+/* The easter-egg breadcrumb in the copyright line (mkdocs.yml): underline its link,
+   since footer links otherwise look like plain text there. */
+.md-copyright .breadcrumb a {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
 
 /* ---------------------------------------------------------------------------
    Site banner (docs/overrides/partials/header.html)
